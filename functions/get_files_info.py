@@ -1,27 +1,25 @@
 import os 
 
 def get_files_info(working_directory, directory="."):
-    new_wd= os.path.abspath(working_directory)
-    full_path = os.path.abspath(new_wd, directory)
-    if not full_path.startswith(os.path.abspath(new_wd)):
-        raise ValueError("aaaa")
+    full_path_working_directory= os.path.abspath(working_directory)
+    full_path_directory = os.path.abspath(os.path.join(full_path_working_directory, directory))
     
-    if not os.path.abspath(directory).startswith(os.getcwd()):
-        return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
+    
+    if not full_path_directory.startswith(full_path_working_directory):
+        print(f'Error: Cannot list "{directory}" as it is outside the permitted working directory')
 
-    if not os.path.isdir(full_path):
-        return f'Error: "{directory}" is not a directory'
+
+    if not os.path.isdir(full_path_directory):
+        print(f'Error: "{directory}" is not a directory')
     
     result = []
-    for a in os.listdir(new_wd):
+    # if os.path.isfile(directory)
+    for filename in os.listdir(full_path_directory):
         try:
-            p = os.path.join(new_wd, a)
+            p = os.path.join(full_path_directory, filename)
             file_size = os.path.getsize(p)
-            print(file_size)
             is_dir = os.path.isdir(p)
-            print(is_dir)
-            result.append(f'- {a}: file_size={file_size} bytes, is_dir={is_dir}')
+            result.append(f'- {filename}: file_size={file_size} bytes, is_dir={is_dir}')
         except Exception as e:
-            result.append(f'- {a}: Error: {str(e)}')
-    return "\n".join(result)
-
+            result.append(f'- {filename}: Error: {str(e)}')
+    print("\n".join(result))
