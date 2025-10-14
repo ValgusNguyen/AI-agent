@@ -1,39 +1,24 @@
-# from functions.write_file import write_file
-
-# def run_tests():
-#     print("=== Test overwrite lorem.txt ===")
-#     print(write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum"))
-
-#     print("\n=== Test nested new file ===")
-#     print(write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet"))
-
-#     print("\n=== Test forbidden absolute path ===")
-#     print(write_file("calculator", "/tmp/temp.txt", "this should not be allowed"))
-
-# if __name__ == "__main__":
-#     run_tests()
-
-from functions.get_files_info import get_files_info
-
+from functions.run_python_file import run_python_file
 
 def test():
-    result = get_files_info("calculator", ".")
-    print("Result for current directory:")
-    print(result)
-    print("")
-
-    result = get_files_info("calculator", "pkg")
-    print("Result for 'pkg' directory:")
+    result = run_python_file("calculator", "main.py")
     print(result)
 
-    result = get_files_info("calculator", "/bin")
-    print("Result for '/bin' directory:")
+    result = run_python_file("calculator", "main.py", ["3 + 5"])
+    print(result)
+    
+    result = run_python_file("calculator", "tests.py")
     print(result)
 
-    result = get_files_info("calculator", "../")
-    print("Result for '../' directory:")
+    result = run_python_file("calculator", "../main.py") 
     print(result)
 
+    result = run_python_file("calculator", "nonexistent.py")
+    print(result)
+
+    result = run_python_file("calculator", "lorem.txt")
+    print(result)
 
 if __name__ == "__main__":
     test()
+
