@@ -4,8 +4,7 @@ from google import genai
 import sys
 from google.genai import types
 from prompts import system_prompt
-from call_function import available_functions
-
+from call_function import available_functions, call_function
 
 def main():
     load_dotenv()
@@ -35,11 +34,24 @@ def content(client, messages, user_prompt):
         print(f'User prompt: {user_prompt}')
         print(f'Prompt tokens: {response.usage_metadata.prompt_token_count}')
         print(f'Response tokens: {response.usage_metadata.candidates_token_count}')
-
+ 
     if not response.function_calls:
         return response.text 
-    for func in response.function_calls:
+    function_call_part = response.function_calls[0]
+    print("part",function_call_part)
+    function_call_result = call_function(function_call_part, verbose=verbose)
+    print(function_call_result,"result here")
+    try:
+        func_response = function_call_result.parts[0].function_response.response
+        print("res", function_call_result.parts[0])
+    except (AttributeError, IndexError):
+        raise RuntimeError("Fatal: function_call_result missing function_response")
+    # for func in response.function_calls:
+    if verbose:
         print(f"Calling function: {func.name}({func.args})")
+        print(f"-> {func_response}")
+
+    return function_call_result
 
 
 if __name__ == "__main__":
