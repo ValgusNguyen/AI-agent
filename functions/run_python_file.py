@@ -1,5 +1,4 @@
 import os
-import sys
 import subprocess   
 from google.genai import types
 
@@ -39,15 +38,15 @@ schema_run_python_file = types.FunctionDeclaration(
         properties={
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="TPath to the Python file to execute, relative to the working directory.",
+                description="Path to the Python file to execute, relative to the working directory.",
             ),
             "arg": types.Schema(
                 type=types.Type.ARRAY,
                 items=types.Schema(
                     type=types.Type.STRING,
-                    description="Optional arguments to pass to the Python file."
+                    description="Arguments to pass to the Python file."
                 ),
-                description="Optional arguments to pass to the Python file."
+                description="Arguments to pass to the Python file."
             )
         },
         required=['file_path'],
