@@ -45,7 +45,7 @@ def main():
             final_response = generate_content(client, messages, verbose)
             if final_response:
                 print("Final response:")
-                print(final_response,"final")
+                print(final_response)
                 break
         except Exception as e:
             print(f"Error in generate_content: {e}")
